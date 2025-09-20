@@ -29,7 +29,6 @@ int main() {
 	
 	no_leaks<int, 100>(42);
 	leaks<int, 100>(42);
-	auto p = new(__FILE__, __LINE__) int(42);
 
 	return 0;
 }
