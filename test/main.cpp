@@ -24,11 +24,11 @@ void leaks(Args... args) {
 		}
 	}
 }
-int main() {
-	tsg::print("Hello, World!\n");
-	
+
+int main() {	
 	no_leaks<int, 100>(42);
 	leaks<int, 100>(42);
+	int* p = new int(42);
 
 	return 0;
 }

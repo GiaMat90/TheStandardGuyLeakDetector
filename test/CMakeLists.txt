@@ -1,9 +1,9 @@
 file(GLOB_RECURSE TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp	${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
-add_executable(tsld_test ${TEST_SOURCE})
+add_executable(test ${TEST_SOURCE})
 
 # Set the folder for Visual Studio
-set_target_properties(tsld_test PROPERTIES FOLDER "test")
+set_target_properties(test PROPERTIES FOLDER "test")
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/src/)
@@ -12,14 +12,14 @@ include_directories(${CMAKE_SOURCE_DIR}/tsg/include)
 # Set up source groups for Visual Studio filters
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "source" FILES ${TEST_SOURCE})
 
-target_link_libraries(tsld_test PRIVATE tsld)
-target_link_libraries(tsld_test PRIVATE tsg)
+target_link_libraries(test PRIVATE tsld)
+target_link_libraries(test PRIVATE tsg)
 # Settings compiler options
-target_compile_features(tsld_test PUBLIC cxx_std_23)
+target_compile_features(test PUBLIC cxx_std_23)
 if(MSVC)
-	target_compile_options(tsld_test PRIVATE /W4)
+	target_compile_options(test PRIVATE /W4)
 else()
-	target_compile_options(tsld_test PRIVATE -Wall -Wextra)
+	target_compile_options(test PRIVATE -Wall -Wextra)
 endif()
 
 
