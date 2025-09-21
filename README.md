@@ -12,7 +12,7 @@ Download the latest release from [Releases](https://github.com/yourusername/dete
 - Statically link the library detekt or detektd if building Release or Debug configuration.
 - Include at some point the header detekt.h, that's all!
 
-The library generate a report in a file called detektor_report.txt and also in the console if anyt.
+The library generate a report in a file called detektor_report.txt and also in the console if any.
 
 
 ## Contributing
