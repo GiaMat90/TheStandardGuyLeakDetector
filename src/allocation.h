@@ -31,10 +31,12 @@ public:
 	inline bool operator==(const allocation& other) const noexcept {
 		return (m_ptr == other.m_ptr);
 	}
+public:
+	void free();
 private:
 	pointer_t m_ptr{ nullptr };
 	file_t m_file{};
 	function_t m_function{};
-	line_t m_line{};
+	line_t m_line{-1};
 	std::size_t m_size{};
 };

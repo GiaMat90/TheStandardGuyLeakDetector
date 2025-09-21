@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib> // std::malloc, std::free
+
 template<typename T>
 class linked_list {
 	struct node_t {
@@ -47,7 +49,7 @@ public:
 		}
 	}
 
-	node_t* find(const T& value) noexcept {
+	node_t* find(const T& value) const noexcept {
 		node_t* current = m_begin;
 		while (current) {
 			if (current->data == value) {

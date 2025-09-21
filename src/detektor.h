@@ -18,6 +18,10 @@ public:
 		m_allocations.remove(p);
 	};
 private:
+	void save_report() const noexcept;
+	void print_report() const noexcept;
+	void clean_memory() const noexcept;
+private:
 	linked_list<allocation> m_allocations;
 	std::mutex m_mutex;
 };
