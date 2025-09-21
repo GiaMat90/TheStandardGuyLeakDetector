@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <array>
+#include "container_leak.h"
 
 // use detekt to catch memory leaks
 #include <detekt.h>
@@ -49,6 +50,9 @@ int main() {
 	// one leak
 	int* p = new int(42);
 	*p; // avoid unused variable warning
+	// test leakage in standard containers
+	container_leak::vector_test();
+	container_leak::map_test();
 
 	return 0;
 }

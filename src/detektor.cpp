@@ -137,7 +137,6 @@ void detektor::clean_memory() const noexcept {
 	}
 }
 
-
 /* placement new with file, function and line info */
 void* operator new(std::size_t n, const where& w) {
 	if (void* p = std::malloc(n)) {

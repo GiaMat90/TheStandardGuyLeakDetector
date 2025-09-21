@@ -11,7 +11,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src/)
 # Set up source groups for Visual Studio filters
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "source" FILES ${TEST_SOURCE})
 
+# Set linker options
 target_link_libraries(test PRIVATE detekt)
+
 # Settings compiler options
 target_compile_features(test PUBLIC cxx_std_23)
 if(MSVC)
