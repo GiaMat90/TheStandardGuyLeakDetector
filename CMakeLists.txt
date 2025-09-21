@@ -23,3 +23,4 @@ add_subdirectory(src)
 
 # Build the tests
 add_subdirectory(test)
+

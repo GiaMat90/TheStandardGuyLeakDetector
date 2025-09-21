@@ -1,8 +1,25 @@
+/*
+ * Copyright 2025 Giacomo Matzeu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 #include "detektor.h"
 #include <iostream>
 #include <print>
 #include <fstream>
 #include <filesystem>
+
+static detektor g_detektor;
 
 detektor::detektor() {	
 	std::print("Leak Detektor is awake and ready");
@@ -117,5 +134,71 @@ void detektor::clean_memory() const noexcept {
 	while (current) {
 		current->data.free();
 		current = current->next;
+	}
+}
+
+
+/* placement new with file, function and line info */
+void* operator new(std::size_t n, const where& w) {
+	if (void* p = std::malloc(n)) {
+		g_detektor.add_allocation(w.file, w.function, w.line, n, p);
+		return p;
+	}
+	else {
+		throw std::bad_alloc();
+	}
+}
+void* operator new[](std::size_t n, const where& w) {
+	if (void* p = std::malloc(n)) {
+		g_detektor.add_allocation(w.file, w.function, w.line, n, p);
+		return p;
+	}
+	else {
+		throw std::bad_alloc();
+	}
+}
+/* regular new operators */
+void* operator new(std::size_t n) {
+	if (void* p = std::malloc(n)) {
+		g_detektor.add_allocation(n, p);
+		return p;
+	}
+	else {
+		throw std::bad_alloc();
+	}
+}
+void* operator new[](std::size_t n) {
+	if (void* p = std::malloc(n)) {
+		g_detektor.add_allocation(n, p);
+		return p;
+	}
+	else {
+		throw std::bad_alloc();
+	}
+}
+/* Placement delete */
+void operator delete (void* p, std::size_t, where) noexcept {
+	if (p) {
+		g_detektor.add_deallocation(p);
+		std::free(p);
+	}
+}
+void operator delete[](void* p, std::size_t, where) noexcept {
+	if (p) {
+		g_detektor.add_deallocation(p);
+		std::free(p);
+	}
+}
+/* Regular delete */
+void operator delete (void* p, std::size_t) noexcept {
+	if (p) {
+		g_detektor.add_deallocation(p);
+		std::free(p);
+	}
+}
+void operator delete[](void* p, std::size_t) noexcept {
+	if (p) {
+		g_detektor.add_deallocation(p);
+		std::free(p);
 	}
 }

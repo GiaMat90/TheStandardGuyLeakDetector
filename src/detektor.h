@@ -25,3 +25,17 @@ private:
 	linked_list<allocation> m_allocations;
 	std::mutex m_mutex;
 };
+
+/* placement new with file, function and line info */
+void* operator new(std::size_t n, const where& w);
+void* operator new[](std::size_t n, const where& w);
+/* regular new operators */
+void* operator new(std::size_t n);
+void* operator new[](std::size_t n);
+/* Placement delete */
+void operator delete (void* p, std::size_t, where) noexcept;
+void operator delete[](void* p, std::size_t, where) noexcept;
+/* Regular delete */
+void operator delete (void* p, std::size_t) noexcept;
+void operator delete[](void* p, std::size_t) noexcept;
+

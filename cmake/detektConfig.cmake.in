@@ -1,0 +1,12 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Add any dependencies here
+# find_dependency(SomePackage REQUIRED)
+
+if(NOT TARGET detekt::detekt)
+    include("${CMAKE_CURRENT_LIST_DIR}/detektTargets.cmake")
+endif()
+
+check_required_components(detekt)
