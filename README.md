@@ -1,4 +1,4 @@
-# detekt
+# Detekt
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A powerfull, lightweight C++ memory leak detector with capabilities to works as garbage collector.
