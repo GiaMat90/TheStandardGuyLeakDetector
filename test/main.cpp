@@ -1,6 +1,8 @@
 #include <tsg/io.h>
-#include <tsld.h>
 #include <array>
+
+// use detekt to catch memory leaks
+#include <detekt.h>
 
 template<typename T, std::size_t S, typename ...Args>
 void no_leaks(Args... args) {

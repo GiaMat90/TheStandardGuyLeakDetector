@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(tsld)
+project(detekt)
 
 # Enable grouping targets into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
