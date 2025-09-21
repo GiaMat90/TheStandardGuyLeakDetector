@@ -22,6 +22,7 @@ public:
 	allocation(file_t f, function_t fun, line_t l, std::size_t s, pointer_t p);
 	allocation(file_t f, function_t fun, line_t l);
 	allocation(std::size_t s);
+	~allocation() = default;
 public:
 	inline std::size_t size() const noexcept { return m_size; };
 	inline file_t get_file() const noexcept { return m_file; };

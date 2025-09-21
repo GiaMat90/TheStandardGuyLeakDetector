@@ -1,4 +1,3 @@
-#include <tsg/io.h>
 #include <array>
 
 // use detekt to catch memory leaks
