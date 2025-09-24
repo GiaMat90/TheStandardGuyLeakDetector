@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 #include "detektor.h"
-#include <iostream>
-#include <print>
+#include <cstdio>
 #include <fstream>
 #include <filesystem>
 
 static detektor g_detektor;
 
 detektor::detektor() {	
-	std::print("Leak Detektor is awake and ready");
+	printf("Leak Detektor is awake and ready");
 };
 detektor::~detektor() {
 	save_report();
@@ -32,40 +31,40 @@ detektor::~detektor() {
 
 void detektor::print_report() const noexcept {
 	if (std::size_t size = m_allocations.size() > std::size_t(0u)) {
-		std::print("Detektor found {} leakes\n", m_allocations.size());
-		std::print("|\tBytes\t|\tFile\t|\tLine\t|\tFunction\t|\n");
+		printf("Detektor found %u leakes\n", m_allocations.size());
+		printf("|\tBytes\t|\tFile\t|\tLine\t|\tFunction\t|\n");
 		std::size_t lost_bytes{};
 		auto current = m_allocations.begin();
 		while (current) {
 			lost_bytes += current->data.size();			
-			std::cout << "| " << current->data.size() << " |";
+			printf("| %u |", current->data.size());
 			if (current->data.get_file()) {
-				std::cout << current->data.get_file() << " |";
+				printf(" %s |", current->data.get_file());
 			}
 			else {
-				std::cout << " |";
+				printf(" NA |");
 			}
 			if (current->data.get_line() > 0) {
-				std::cout << current->data.get_line() << " |";
+				printf(" %u |");
 			}
 			else {
-				std::cout << " | ";
+				printf(" NA |");
 			}
 			if (current->data.get_function()) {
-				std::cout << current->data.get_function() << " |";
+				printf(" %s |", current->data.get_function());
 			}
 			else {
-				std::cout << " |";
+				printf(" NA |");
 			}
-			std::cout << std::endl;
+			printf("\n");
 			current = current->next;
 		}
-		std::print("Bytes losted: {}\n", lost_bytes);
+		printf("Bytes losted: %u\n", lost_bytes);
 	}
 	else {
-		std::print("No memory leaked\n");
+		printf("No memory leaked\n");
 	}
-	std::print("Detektor goes to sleep\n");
+	printf("Detektor goes to sleep\n");
 }
 
 void detektor::save_report() const noexcept {
@@ -122,10 +121,10 @@ void detektor::save_report() const noexcept {
 		}
 	}
 	catch (std::exception& e) {
-		std::print("Detektor: exception saving report {}", e.what());
+		printf("Detektor: exception saving report %s", e.what());
 	}
 	catch (...) {
-		std::print("Detektor: error saving report");
+		printf("Detektor: error saving report");
 	}
 }
 
@@ -140,7 +139,7 @@ void detektor::clean_memory() const noexcept {
 /* placement new with file, function and line info */
 void* operator new(std::size_t n, const where& w) {
 	if (void* p = std::malloc(n)) {
-		g_detektor.add_allocation(w.file, w.function, w.line, n, p);
+		g_detektor.add_allocation(w, n, p);
 		return p;
 	}
 	else {
@@ -149,7 +148,7 @@ void* operator new(std::size_t n, const where& w) {
 }
 void* operator new[](std::size_t n, const where& w) {
 	if (void* p = std::malloc(n)) {
-		g_detektor.add_allocation(w.file, w.function, w.line, n, p);
+		g_detektor.add_allocation(w, n, p);
 		return p;
 	}
 	else {
