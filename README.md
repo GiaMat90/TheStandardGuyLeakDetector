@@ -1,16 +1,16 @@
 # Detekt
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A powerfull, lightweight C++ memory leak detector with capabilities to works as garbage collector.
+A powerfull, lightweight, cross platform C++ memory leak detector with capabilities to works as garbage collector that could work with standards from C++11.
 
 ### Installation
 
-Download the latest release from [Releases](https://github.com/yourusername/detekt/releases) and run the installer.
+Download the latest release from [Releases](https://github.com/yourusername/detekt/releases) and run the installer if with Windows or install the proper package.
 
 ### Basic Usage
 
-- Statically link the library detekt or detektd if building Release or Debug configuration.
-- Include at some point the header detekt.h, that's all!
+- Statically link the library detekt if building Release or detektd for Debug configuration.
+- Include at some point the header detekt.h and that's all!
 
 The library generate a report in a file called detektor_report.txt and also in the console if any.
 
