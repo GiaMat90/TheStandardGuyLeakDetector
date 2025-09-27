@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 #include "detektor.h"
+#include "os.h"
 #include <cstdio>
 #include <fstream>
-#include <filesystem>
 
 static detektor g_detektor;
 
@@ -31,13 +31,13 @@ detektor::~detektor() {
 
 void detektor::print_report() const noexcept {
 	if (std::size_t size = m_allocations.size() > std::size_t(0u)) {
-		printf("Detektor found %u leakes\n", m_allocations.size());
+		printf("Detektor found %zu leakes\n", m_allocations.size());
 		printf("|\tBytes\t|\tFile\t|\tLine\t|\tFunction\t|\n");
 		std::size_t lost_bytes{};
 		auto current = m_allocations.begin();
 		while (current) {
 			lost_bytes += current->data.size();			
-			printf("| %u |", current->data.size());
+			printf("| %zu |", current->data.size());
 			if (current->data.get_file()) {
 				printf(" %s |", current->data.get_file());
 			}
@@ -45,7 +45,7 @@ void detektor::print_report() const noexcept {
 				printf(" NA |");
 			}
 			if (current->data.get_line() > 0) {
-				printf(" %u |");
+				printf(" %zu |", current->data.get_line());
 			}
 			else {
 				printf(" NA |");
@@ -59,7 +59,7 @@ void detektor::print_report() const noexcept {
 			printf("\n");
 			current = current->next;
 		}
-		printf("Bytes losted: %u\n", lost_bytes);
+		printf("Bytes losted: %zu\n", lost_bytes);
 	}
 	else {
 		printf("No memory leaked\n");
@@ -71,18 +71,10 @@ void detektor::save_report() const noexcept {
 	std::fstream file;
 	file.exceptions(std::ifstream::failbit | std::ifstream::badbit); // enabling exceptions
 	try {
-		std::filesystem::path file_path = std::filesystem::current_path() / "detektor_report.txt";
+		std::string file_path = os::get_current_dir() + "/detektor_report.txt";
 		file.open(file_path, std::ios::out | std::ios::trunc); // overwrite existing file
 		if (file.is_open()) {
-			/*
-			* ctime_s return a date in this format
-			* "DDD MMM  D HH:MM:SS YYYY\n"
-			* That has 26 characters including the null terminator
-			*/
-			auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-			char buffer[26];
-			ctime_s(buffer, sizeof(buffer), &now);
-			file << "Detektor report generated " << buffer; // no need new line, ctime_s add it
+			file << "Detektor report generated " << os::get_now_time(); // no need new line, ctime_s add it
 			if (std::size_t size = m_allocations.size() > std::size_t(0u)) {
 				file << "Detektor found " << m_allocations.size() << " leakes\n";
 				file << "|\tBytes\t|\tFile\t|\tLine\t|\tFunction\t|\n";

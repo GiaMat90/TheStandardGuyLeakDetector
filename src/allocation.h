@@ -29,13 +29,13 @@ private:
 	using pointer_t = void*;
 	using file_t = const char*;
 	using function_t = const char*;
-	using line_t = int;
+	using line_t = std::size_t;
 public:
 	allocation();
 	allocation(pointer_t p);
 	allocation(std::size_t s, pointer_t p);
-	allocation(file_t f, function_t fun, line_t l, std::size_t s, pointer_t p);
-	allocation(file_t f, function_t fun, line_t l);
+	allocation(const where& w, std::size_t s, pointer_t p);
+	allocation(const where& w);
 	allocation(std::size_t s);
 	~allocation() = default;
 public:
@@ -53,6 +53,6 @@ private:
 	pointer_t m_ptr{ nullptr };
 	file_t m_file{};
 	function_t m_function{};
-	line_t m_line{-1};
+	line_t m_line{};
 	std::size_t m_size{};
 };
