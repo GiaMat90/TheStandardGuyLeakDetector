@@ -1,11 +1,11 @@
 # Detekt
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A powerfull, lightweight, cross platform C++ memory leak detector with capabilities to works as garbage collector that could work with standards from C++11.
+A powerful, lightweight, cross platform C++ memory leak detector with capabilities to works as garbage collector that could work with standards from C++11.
 
 ### Installation
 
-Download the latest release from [Releases](https://github.com/yourusername/detekt/releases) and run the installer if with Windows or install the proper package.
+Download the latest release from [Releases](https://github.com/giamat90/detekt/releases) and run the installer if with Windows or install the proper package.
 
 ### Basic Usage
 
